@@ -1,8 +1,12 @@
 aid: datafy
 name: Datafy
-description: 'Datafy is a company surfaced as a portfolio company of bessemer-venture-partners, insight-partners
-  and added to the API Evangelist network as a stub for enrichment. Sector: cloud. This profile is a lead
-  awaiting the enrichment pipeline.'
+description: 'Datafy is a location-analytics and advertising platform, founded in 2018 and headquartered
+  in Ogden, Utah, that helps destinations and communities turn visitation, spending, and behavioral
+  signals into marketing decisions. It serves travel and tourism boards, attractions, downtowns, retail
+  partners, and civic organizations with three core offerings — data analytics, targeted advertising,
+  and real-world attribution — alongside Tally, an attendance-measurement product. The company reports
+  500+ clients and states that it maintains SOC 2 compliance. Datafy operates a client portal at
+  portal.datafyhq.com; it does not currently publish a public developer API, SDKs, or API documentation.'
 url: https://raw.githubusercontent.com/api-evangelist/datafy/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,12 +15,29 @@ x-backed-by:
 - insight-partners
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
+image: https://www.datafy.com/favicon.ico
 tags:
 - Company
-- Cloud
+- Analytics
+- Advertising
+- Location Intelligence
+- Attribution
+- Tourism
+- Marketing
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -24,5 +45,22 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/datafy-domain-security.yml
 - type: Website
   url: https://www.datafy.com/
+- type: Pricing
+  url: https://www.datafy.com/pricing
+- type: Blog
+  url: https://www.datafy.com/blog
+- type: PrivacyPolicy
+  url: https://www.datafy.com/privacy-policy
+- type: Support
+  url: https://www.datafy.com/contact
+- type: Login
+  url: https://portal.datafyhq.com
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
