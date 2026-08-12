@@ -4,9 +4,14 @@ description: 'Datafy is a location-analytics and advertising platform, founded i
   in Ogden, Utah, that helps destinations and communities turn visitation, spending, and behavioral
   signals into marketing decisions. It serves travel and tourism boards, attractions, downtowns, retail
   partners, and civic organizations with three core offerings — data analytics, targeted advertising,
-  and real-world attribution — alongside Tally, an attendance-measurement product. The company reports
-  500+ clients and states that it maintains SOC 2 compliance. Datafy operates a client portal at
-  portal.datafyhq.com; it does not currently publish a public developer API, SDKs, or API documentation.'
+  and real-world attribution — alongside Tally, a hardware attendance-measurement sensor. Datafy does
+  publish a public API reference at https://www.datafy.com/docs covering the Datafy Data API, a
+  self-described beta JSON-over-HTTP reporting API at api.datafy.com with three endpoints (data,
+  options, progress), authenticated by a 30-day portal-issued bearer JWT that a customer-experience
+  representative must unlock before the API Access page becomes visible. No OpenAPI, SDK, package, or
+  self-service signup is published, and the company''s widest developer-touching surface is its
+  per-customer measurement tag family — website pixel, 1x1 media impression pixels, and click tags.
+  The company reports 500+ clients and holds a SOC 2 Type II certification from A-LIGN.'
 url: https://raw.githubusercontent.com/api-evangelist/datafy/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -16,19 +21,21 @@ x-backed-by:
 x-tier: stub
 x-tier-reason: portfolio-lead
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: enterprise
+  onboarding: approval
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Enterprise · Requires approval
+  confidence: high
+  source:
+  - https://www.datafy.com/pricing
+  - https://www.datafy.com/docs
+  generated: '2026-08-12'
+  method: searched
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-08-12'
 image: https://www.datafy.com/favicon.ico
 tags:
 - Company
@@ -38,7 +45,56 @@ tags:
 - Attribution
 - Tourism
 - Marketing
-apis: []
+- Visitation Data
+- Destination Marketing
+- Measurement
+apis:
+- name: Datafy Data API
+  description: 'The Datafy Data API is a beta JSON-over-HTTP reporting API that returns aggregated
+    visitation analytics for a destination. It is RPC-shaped rather than resource-shaped: three fixed
+    endpoints, with the request body — not the path — selecting what comes back. POST / generates or
+    retrieves a dataset from a single envelope of levels, filters and limits; POST /options enumerates
+    the levels, level values and authorized destinations a token is entitled to; GET /progress reports
+    how many data requests are still in flight per destination. A request that has not been processed
+    before is queued and answered with a status message, and the caller re-sends the identical body to
+    collect the result. Responses most often carry four standard KPIs — Total Trips, Visitor Days,
+    Unique Visitors and Avg Trip Length — with privacy filtering and level-dependent weighted
+    averaging applied inside the response. Access is by a user-specific 30-day bearer JWT generated in
+    the Datafy portal, and Datafy states the API is "provided as a convenience and an alternative to
+    receiving a scheduled report directly from the Datafy Team".'
+  humanURL: https://www.datafy.com/docs
+  baseURL: https://api.datafy.com/
+  image: https://www.datafy.com/favicon.ico
+  tags:
+  - Analytics
+  - Location Intelligence
+  - Visitation Data
+  - Reporting
+  - Tourism
+  properties:
+  - type: Documentation
+    url: https://www.datafy.com/docs
+  - type: APIReference
+    url: https://www.datafy.com/docs
+  x-evidence:
+    verified: '2026-08-12'
+    method: docs read + live endpoint probe
+    docs_describe: >-
+      https://www.datafy.com/docs names the base URL https://api.datafy.com/, three endpoints (/,
+      /options, /progress), the Authorization header scheme, the full JSON request envelope
+      (destination, levels, filters, limits) with worked cURL / JavaScript / Python examples, and the
+      response semantics.
+    endpoint_check: >-
+      All three documented endpoints answer live. GET https://api.datafy.com/ and GET
+      https://api.datafy.com/progress and POST https://api.datafy.com/options each returned HTTP 500
+      "Error: No authorization token was found" anonymously; a malformed bearer returned "jwt
+      malformed" and an unaccepted bearer returned "invalid token" — real, distinguishable
+      application responses from a live API server, not a parked host or marketing page.
+    spec_published: false
+    note: >-
+      The prior round of this profile recorded "does not currently publish a public developer API,
+      SDKs, or API documentation." That was wrong on two of the three counts and is corrected here:
+      the public API documentation and the live API host both exist. No SDK exists.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -47,8 +103,36 @@ maintainers:
 common:
 - type: DomainSecurity
   url: security/datafy-domain-security.yml
+- type: Authentication
+  url: authentication/datafy-authentication.yml
+- type: Conventions
+  url: conventions/datafy-conventions.yml
+- type: Lifecycle
+  url: lifecycle/datafy-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/datafy-problem-types.yml
+- type: DataModel
+  url: data-model/datafy-data-model.yml
+- type: RateLimits
+  url: rate-limits/datafy-rate-limits.yml
+- type: Plans
+  url: plans/datafy-plans-pricing.yml
+- type: Conformance
+  url: conformance/datafy-conformance.yml
+- type: Compliance
+  url: conformance/datafy-conformance.yml
+- type: Components
+  url: components/datafy-components.yml
+- type: LLMsTxt
+  url: llms/datafy-llms.txt
 - type: Website
   url: https://www.datafy.com/
+- type: Documentation
+  url: https://www.datafy.com/docs
+- type: APIReference
+  url: https://www.datafy.com/docs
+- type: GettingStarted
+  url: https://www.datafy.com/pixel/introduction
 - type: Pricing
   url: https://www.datafy.com/pricing
 - type: Blog
@@ -58,9 +142,17 @@ common:
 - type: Support
   url: https://www.datafy.com/contact
 - type: Login
-  url: https://portal.datafyhq.com
+  url: https://portal.datafy.com
+- type: LinkedIn
+  url: https://www.linkedin.com/company/datafy-hq/
+- type: Careers
+  url: https://www.datafy.com/careers
+- type: DoNotSell
+  url: https://www.datafy.com/opt-out
+- type: PrivacyMetrics
+  url: https://www.datafy.com/ccpa-metrics
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-12'
+  status: enriched
+  artifacts_added: 11
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence

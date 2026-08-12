@@ -1,0 +1,17 @@
+# Datafy
+
+> Datafy provides data analytics, advertising, and attribution technology for destinations, attractions, retailers, and communities.
+
+## Public Content
+
+- [Home](https://datafy.com/)
+- [Solutions](https://datafy.com/solutions)
+- [Data Analytics](https://datafy.com/data)
+- [Advertising](https://datafy.com/advertising)
+- [Attribution](https://datafy.com/attribution)
+- [Industries](https://datafy.com/industries/travel-tourism)
+- [Documentation](https://datafy.com/docs)
+- [Blog](https://datafy.com/blog)
+- [Privacy Policy](https://datafy.com/privacy-policy)
+
+Public editorial and marketing pages are intended to be discoverable. Do not use public pages to access customer applications, submit forms, or infer personal data. Respect https://datafy.com/robots.txt.

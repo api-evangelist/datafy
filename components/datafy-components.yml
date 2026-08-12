@@ -1,0 +1,142 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.datafy.com/pixel/introduction
+docs:
+- https://www.datafy.com/pixel/introduction
+- https://www.datafy.com/pixel/website
+- https://www.datafy.com/pixel/media
+note: >-
+  Datafy ships no SDK and no UI element library, but it does ship a real
+  client-side embed surface — the measurement tags a customer pastes into their
+  own website, ad server, or creative. Datafy documents these publicly, at
+  length, including installation, verification, troubleshooting and privacy
+  guidance. They are the company's primary developer-touching integration point,
+  and in practice they matter more to an implementer than the beta Data API does.
+  Every tag is PROVISIONED PER CUSTOMER by Datafy ("Your personalized script text
+  will go here. Contact us to receive your customized pixel script"), so no
+  loader URL, script host, or snippet body is published and none is recorded here
+  — the docs show only a placeholder. Nothing below is reconstructed.
+distribution:
+  model: provider-provisioned snippet
+  self_service: false
+  public_loader_url: null
+  registry: null
+  versioned: false
+  note: >-
+    There is no npm package, no CDN URL, and no version identifier for any Datafy
+    tag. A consumer cannot tell what version of the tag they are running, and
+    neither can we — the same unpinned-distribution finding that applies to any
+    floating script include, made stronger here because the artifact is bespoke
+    per program.
+families:
+- family: Datafy Website Pixel
+  url: https://www.datafy.com/pixel/website
+  type: JavaScript snippet
+  placement: >-
+    Between the opening and closing <head> tags on every page and every device
+    variant, or via a third-party tag manager. Datafy recommends the global
+    header.
+  triggers:
+  - page load
+  - page close
+  captures_by_default:
+  - session ID
+  - timestamp
+  - IP address
+  - browser and device type
+  - traffic acquisition source
+  - sessions
+  - unique reach
+  - attribution metrics
+  captures_on_request:
+  - on-page conversion events
+  - audience segment IDs for campaign retargeting
+  cookies: >-
+    Attempts to set a cookie to identify a repeat ID for unique-reach
+    de-duplication, honouring browser/device privacy settings; Datafy states it
+    anticipates phasing cookies out.
+  provisioning: request from a customer-experience representative, or via
+    https://www.datafy.com/free-pixel-signup
+  free_offer:
+    url: https://www.datafy.com/free-pixel-signup
+    audience: DMOs (destination marketing organizations)
+    price: 0
+    note: limited-time offer stated on the page
+- family: Datafy Media Impression Pixels
+  url: https://www.datafy.com/pixel/media
+  type: third-party ad-server impression tags
+  variants:
+  - Standard 1x1 JavaScript impression tag
+  - Standard 1x1 image impression tag
+  - Custom script impression tag
+  placement: >-
+    Applied to creatives, or trafficked directly in an ad server / with a vendor.
+    Datafy warns pixels should be placed ONCE — in an ad server or directly with
+    a vendor — to avoid duplicated event tracking.
+  captures_by_default:
+  - impressions
+  - unique reach
+  - referral site
+  - IP address
+  - browser and device type
+  - validation metrics
+  captures_on_request:
+  - vendor
+  - tactic
+  - creative or content
+- family: Datafy Click Tags
+  url: https://www.datafy.com/pixel/media
+  type: click-tracking redirect tag
+  captures:
+  - click ID
+  - timestamp
+  - IP address
+  - campaign and creative details
+  note: Documented alongside the media pixels, with its own troubleshooting section.
+- family: Datafy embedded dashboards / report embeds
+  url: https://www.datafy.com/geolocation-embed
+  type: hosted embed pages
+  members:
+  - name: geolocation embed
+    url: https://www.datafy.com/geolocation-embed
+  - name: economic embed
+    url: https://www.datafy.com/economic-embed
+  - name: environmental embed
+    url: https://www.datafy.com/environmental-embed
+  - name: social embed
+    url: https://www.datafy.com/social-embed
+  - name: Explore Branson embed
+    url: https://www.datafy.com/explore-branson-embed
+  note: >-
+    Present in Datafy's own sitemap as distinct embeddable report surfaces. They
+    are listed here as an observed surface only — no embed code, iframe contract,
+    or configuration parameter is published for any of them, and Explore Branson
+    is plainly a single named customer deployment rather than a generic component.
+  evidence:
+  - url: https://www.datafy.com/sitemap.xml
+    status: 200
+    checked: '2026-08-12'
+hardware:
+- name: Tally
+  type: physical proximity sensor (not a software component, recorded for completeness)
+  url: https://www.datafy.com/tally-implementation
+  docs:
+  - https://www.datafy.com/tally-implementation/installation
+  - https://www.datafy.com/tally-implementation/powering-and-connecting
+  - https://www.datafy.com/tally-implementation/troubleshooting
+  description: >-
+    A 6" x 4" x 2.5" mains-powered device that estimates crowd size from nearby
+    smart-device signals within a ~250-foot radius, minute by minute, connecting
+    over Wi-Fi or falling back to LTE/5G. Datafy states it collects no PII and
+    encrypts data at rest and in transit.
+  integration_surface: >-
+    Reports are built from the Datafy portal and are "typically ready within 3
+    business days" — there is no documented API, callback, or data feed for Tally
+    output, so a Tally deployment cannot currently be automated end to end.
+gaps:
+- No published loader URL, package, or version for any tag — every artifact is
+  provisioned per customer.
+- No documented event API or JS method surface (no datafy.track(...) equivalent
+  is published).
+- Tally has no programmatic output surface at all.
+checked: '2026-08-12'

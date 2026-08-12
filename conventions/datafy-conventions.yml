@@ -1,0 +1,163 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.datafy.com/docs
+docs: https://www.datafy.com/docs
+api: Datafy Data API
+base_url: https://api.datafy.com/
+note: >-
+  Cross-cutting runtime semantics read from Datafy's own public API
+  documentation. Datafy publishes no OpenAPI, so nothing here is derived from a
+  spec — every convention below is either quoted from the docs page or observed
+  on a live anonymous request. Where the docs are silent, this file says so
+  rather than assuming a default.
+style:
+  protocol: JSON over HTTPS
+  shape: >-
+    RPC-style. There is no resource hierarchy — the API exposes three fixed
+    endpoints and the request BODY, not the path, selects what is returned.
+  methods:
+    data: POST https://api.datafy.com/
+    options: POST https://api.datafy.com/options
+    progress: GET https://api.datafy.com/progress
+  content_type: application/json (required on the two POST endpoints)
+request_envelope:
+  description: >-
+    A single JSON object drives every data request. The same envelope both
+    GENERATES and RETRIEVES a dataset — there is no separate create/fetch pair.
+  fields:
+  - name: destination
+    type: string
+    required: false
+    description: >-
+      Only needed by callers entitled to more than one destination. Authorized
+      names come from the /options endpoint with {"level":"Destination"}.
+  - name: levels
+    type: array of string
+    required: true
+    description: >-
+      Level of detail to break the data down by. Order is not significant and
+      several may be combined (e.g. ["State","Year"]). Documented examples
+      include State, Year, City, Cluster, Month, DMA, MSA. The authoritative
+      list per destination comes from /options.
+  - name: filters
+    type: array of object
+    required: true
+    description: >-
+      Each entry is {"level": <level name>, "values": [<...>]} for set filters,
+      or {"level": <range level>, "value": <scalar>} for range filters. Range
+      levels are "Start Date", "End Date", "Minimum Distance", "Maximum
+      Distance". Order is not significant and several may be combined.
+  - name: limits
+    type: array of object
+    required: false
+    description: >-
+      Each entry is {"level": <level name>, "value": <n>} and caps the number of
+      rows returned for that level, with Datafy computing the top-N. May be used
+      without a matching entry in levels, in which case it filters the population
+      rather than the output shape.
+async_semantics:
+  model: request-queue-and-poll
+  description: >-
+    The single most important runtime convention on this API. A data request
+    returns one of TWO different response bodies from the same call: a JSON array
+    of result objects if the dataset has already been processed, or a status
+    message if the request was queued. The caller is expected to re-send the
+    IDENTICAL request after a short delay to collect the result.
+  polling: re-send the same request body; typically ready in seconds, longer for
+    dense POIs over wide date ranges
+  job_id: false
+  job_id_note: >-
+    No job identifier, callback, or webhook is documented. The request body is
+    its own idempotency/cache key, and the only way to observe backlog is the
+    /progress endpoint, which returns a COUNT of in-progress requests per
+    destination — not per-request status.
+  progress_endpoint:
+    url: https://api.datafy.com/progress
+    returns: array of objects, one per destination that has "In Progress" data
+      requests, carrying the destination name and the number of in-progress requests
+idempotency:
+  supported: false
+  header: null
+  description: >-
+    No Idempotency-Key header, no idempotent-replay guarantee, and no
+    documented request identifier. Retrying is nonetheless SAFE in practice
+    because every operation is a read and the docs explicitly instruct callers to
+    re-send the same body to collect a queued result — but that is a property of
+    the workload, not a contract Datafy publishes. NO `type: Idempotency` pointer
+    is emitted in apis.yml, because the provider does not offer idempotency.
+pagination:
+  supported: false
+  style: none
+  description: >-
+    There is no cursor, offset, page, or next-link. Result-set size is controlled
+    up front by the `limits` parameter (top-N per level), which is truncation,
+    not pagination — rows beyond the limit are not retrievable by a follow-up
+    call. Callers requesting very granular levels are told to constrain with
+    limits rather than page through.
+  params:
+  - limits[].level
+  - limits[].value
+field_expansion:
+  supported: false
+  note: No sparse-fieldset or expand parameter is documented; the response shape
+    is determined entirely by `levels`.
+metadata:
+  supported: false
+  note: No customer-supplied metadata / annotation field is documented.
+request_tracing:
+  request_id_header: null
+  supported: false
+  note: >-
+    No request-id or correlation header is documented, and none was observed on
+    a live anonymous response. There is no documented way to hand Datafy support
+    an identifier for a failed call.
+versioning:
+  scheme: none
+  in_path: false
+  in_header: false
+  current_version: null
+  note: >-
+    The base URL carries no version segment (https://api.datafy.com/), no version
+    header is documented, and the docs describe the API as "still in beta". See
+    lifecycle/datafy-lifecycle.yml.
+error_envelope:
+  format: proprietary JSON
+  rfc9457: false
+  content_type: application/json
+  observed_shape: '{"name": "<ErrorName>", "message": "<human message>", "stack": "<server stack trace>"}'
+  observed_example_status: 500
+  note: >-
+    Observed live on an anonymous request to https://api.datafy.com/ on
+    2026-08-12. Not application/problem+json, no `type` URI, no machine-stable
+    error code, and the body leaks a server-side stack trace. The docs publish no
+    error reference at all — the Intro asks callers to report "error messaging"
+    problems to the Datafy team. See errors/datafy-problem-types.yml.
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: null
+  documented: false
+  note: >-
+    No published limits and no RateLimit-* / X-RateLimit-* / Retry-After headers
+    documented or observed. Back-pressure is expressed instead as queueing — a
+    request that cannot be served immediately is accepted and processed later.
+    See rate-limits/datafy-rate-limits.yml.
+privacy_semantics:
+  description: >-
+    A convention unusual enough to be worth recording as runtime behaviour rather
+    than policy: Datafy applies privacy filtering and level-dependent weighted
+    averaging INSIDE the response. The docs warn that the unlevelled aggregate
+    will not equal the sum of a value across a more granular level — "in most
+    cases the variance is in the low single digit percentage range, but may
+    increase at very high levels of granularity due to filtering." Any consumer
+    reconciling totals across two calls must expect that drift by design.
+  standard_kpis:
+  - Total Trips
+  - Visitor Days
+  - Unique Visitors
+  - Avg Trip Length
+cross_links:
+  authentication: authentication/datafy-authentication.yml
+  errors: errors/datafy-problem-types.yml
+  lifecycle: lifecycle/datafy-lifecycle.yml
+  rate_limits: rate-limits/datafy-rate-limits.yml
+  data_model: data-model/datafy-data-model.yml

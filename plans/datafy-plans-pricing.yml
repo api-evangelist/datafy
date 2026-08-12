@@ -1,0 +1,59 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.datafy.com/pricing
+docs: https://www.datafy.com/pricing
+plan_count: 0
+plans: []
+currency: null
+billing_periods: []
+free_tier: false
+trial: false
+self_service_signup: false
+note: >-
+  Datafy publishes NO priced plans. The pricing page is a lead-capture page with
+  no tiers, no numbers, and no currency — its own copy is "We don't do
+  one-size-fits-all pricing, because our clients aren't one-size-fits-all...
+  we build a custom solution based on your goals, budget and the level of
+  insights or advertising support you need," followed by a first name / last name
+  / email / organization form. There is no product catalog endpoint and no
+  machine-readable price list anywhere on the site. plan_count is 0 as a measured
+  fact, not as a gap in this pass.
+pricing_model:
+  type: custom / quote-only
+  contact_required: true
+  segments_named_on_page:
+  - cities
+  - state-wide DMOs
+  - historic downtowns
+  - retail partners
+  claims:
+  - text: '"We''ll help you find the right fit—without the surprise fees."'
+    note: an anti-overage statement, but with no published rate it is not a
+      commitment a buyer can verify or an agent can price against.
+api_pricing:
+  metered: false
+  note: >-
+    The Datafy Data API is not separately priced or sold. It is described in
+    Datafy's own docs as an entitlement of an existing engagement — "provided as a
+    convenience and an alternative to receiving a scheduled report directly from
+    the Datafy Team" — and access to the API Access page must be unlocked by a
+    customer-experience representative. There is no API price, no usage meter, and
+    no self-service purchase path.
+adjacent_offers:
+- name: Free website pixel (limited-time offer for DMOs)
+  url: https://www.datafy.com/free-pixel-signup
+  price: 0
+  currency: USD
+  note: >-
+    A genuine no-cost offer, but it is a measurement pixel provisioned by Datafy
+    on request, not a plan and not API access — recorded here so the free pixel is
+    not mistaken for a free tier of the product or the API.
+  status: 200
+  checked: '2026-08-12'
+evidence:
+- url: https://www.datafy.com/pricing
+  status: 200
+  checked: '2026-08-12'
+- url: https://www.datafy.com/free-pixel-signup
+  status: 200
+  checked: '2026-08-12'

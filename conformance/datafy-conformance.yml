@@ -1,0 +1,134 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.datafy.com/privacy-policy
+docs:
+- https://www.datafy.com/privacy-policy
+- https://www.datafy.com/blog/datafy-completes-soc-2-audit
+- https://www.datafy.com/docs
+note: >-
+  Standards and compliance posture, split into two halves. The SECURITY and
+  PRIVACY half is real and provider-published (SOC 2 Type II, named auditor, named
+  privacy frameworks). The API-STANDARDS half is uniformly false — Datafy's API is
+  a bespoke RPC surface with no OpenAPI, no OAuth, no RFC 9457 errors and no
+  standard pagination. Both halves are recorded so the profile is not read as
+  either better or worse than it is.
+conformance:
+- id: soc2-type-ii
+  conforms: true
+  evidence: >-
+    "Datafy adheres to the principles of SOC2 Type II, and has successfully
+    received the SOC2 Type II Certification from A-Lign" — privacy policy,
+    https://www.datafy.com/privacy-policy. Corroborated by the company's own
+    announcement, https://www.datafy.com/blog/datafy-completes-soc-2-audit
+    (April 2025), which names the auditor as A-LIGN and quotes both Datafy
+    co-founder/president Kelby Bosshardt and A-LIGN COO Steve Simmons.
+  auditor: A-LIGN
+  report_available: false
+  report_note: No trust center, no report request portal, and no public bridge
+    letter — the claim is published in prose only.
+- id: ccpa-cpra
+  conforms: true
+  evidence: >-
+    Privacy policy states adherence to the California Consumer Privacy Act, and
+    Datafy publishes an annual CCPA/CPRA request-metrics disclosure at
+    https://datafy.com/ccpa-metrics plus a consumer opt-out path at
+    https://datafy.com/opt-out (HTTP 200, 2026-08-12).
+- id: gdpr
+  conforms: true
+  evidence: Privacy policy names the General Data Protection Regulation among the
+    standards Datafy adheres to.
+- id: eu-us-data-privacy-framework
+  conforms: true
+  evidence: >-
+    Privacy policy names the EU-U.S. Data Privacy Framework, the UK Extension to
+    the EU-U.S. DPF, and the Swiss-U.S. Data Privacy Framework.
+- id: global-privacy-control
+  conforms: true
+  evidence: >-
+    "our website listens for common industry standard opt out signals including
+    IAB privacy consent strings, and the Global Privacy Control program" —
+    privacy policy. A machine-readable consent signal Datafy honours at the edge.
+- id: iab-consent-strings
+  conforms: true
+  evidence: Privacy policy — Datafy listens for IAB privacy consent strings.
+- id: tls-https
+  conforms: true
+  evidence: >-
+    TLSv1.3 with HSTS max-age 63072000 observed on www.datafy.com; see
+    security/datafy-domain-security.yml. Privacy policy also describes an
+    "additional encryption/authentication layer between the HTTP and TCP, known
+    as HTTPS."
+- id: iso-27001
+  conforms: false
+  evidence: Not claimed anywhere on the public site.
+- id: hipaa
+  conforms: false
+  evidence: Not claimed; Datafy handles aggregated location and spend data, not
+    protected health information.
+- id: pci-dss
+  conforms: false
+  evidence: Not claimed; Datafy does not process cardholder data as a service.
+- id: fedramp
+  conforms: false
+  evidence: Not claimed, despite a civic/government client segment.
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document is published. Probed /openapi.json,
+    /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /docs and /redoc on
+    api.datafy.com (all HTTP 500 UnauthorizedError) and on www.datafy.com (all
+    404), 2026-08-12.
+- id: asyncapi
+  conforms: false
+  evidence: No event, streaming, or webhook surface is published, so there is
+    nothing for an AsyncAPI to describe.
+- id: graphql
+  conforms: false
+  evidence: /graphql on api.datafy.com returns the same 500 UnauthorizedError as
+    every other path; no GraphQL surface is documented.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    Authentication is a portal-issued bearer token, not OAuth. No
+    /.well-known/oauth-authorization-server and no
+    /.well-known/oauth-protected-resource (see
+    well-known/datafy-well-known.yml).
+- id: oidc
+  conforms: false
+  evidence: No /.well-known/openid-configuration on any host.
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Error bodies are proprietary JSON ({"name","message","stack"}) with
+    Content-Type application/json, not application/problem+json. Observed live
+    2026-08-12; see errors/datafy-problem-types.yml.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on www.datafy.com and
+    portal.datafy.com; 500 on api.datafy.com.
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No deprecation or sunset policy and no Sunset/Deprecation headers
+    documented; see lifecycle/datafy-lifecycle.yml.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header or replay guarantee is documented; see
+    conventions/datafy-conventions.yml.
+- id: pagination
+  conforms: false
+  evidence: >-
+    No cursor, offset, page or link-header pagination. Result size is capped by a
+    caller-supplied top-N `limits` parameter, and rows beyond it are not
+    retrievable.
+- id: llms-txt
+  conforms: true
+  evidence: >-
+    https://www.datafy.com/llms.txt returns HTTP 200 with a well-formed llms.txt
+    (H1 title, blockquote summary, a "## Public Content" link section, and an
+    explicit agent-use statement). Saved verbatim to llms/datafy-llms.txt.
+summary:
+  security_and_privacy: strong for the sector — SOC 2 Type II with a named
+    auditor, US/EU/UK/Swiss privacy frameworks, and honoured GPC + IAB consent signals
+  api_standards: none — the API conforms to no API specification, error, auth, or
+    lifecycle standard
+checked: '2026-08-12'

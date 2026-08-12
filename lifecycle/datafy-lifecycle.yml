@@ -1,0 +1,91 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.datafy.com/docs
+docs: https://www.datafy.com/docs
+api: Datafy Data API
+note: >-
+  Read from Datafy's own public API documentation plus live probes for a status
+  page. No OpenAPI exists, so no deprecated operations could be derived. NO
+  `type: StatusPage` and NO `type: Deprecation` pointer is emitted in apis.yml —
+  Datafy publishes neither, and asserting them would credit a posture the company
+  does not have.
+maturity:
+  stage: beta
+  declared_by_provider: true
+  quote: >-
+    "This API is still in beta, and therefore it is expected to have bugs and you
+    may experience slowdowns or unexpected behavior. Please alert the team if you
+    experience any challenges with data retrieval, syntax, error messaging etc."
+  source: https://www.datafy.com/docs
+  ga_date: null
+versioning:
+  scheme: none
+  in_path: false
+  in_header: false
+  in_query: false
+  current_version: null
+  policy_url: null
+  note: >-
+    The base URL is https://api.datafy.com/ with no version segment, and no
+    version header, date-pinning, or release channel is documented. A caller has
+    no way to pin behaviour, which is a material risk against a surface the
+    provider itself labels beta and says it will extend ("Additional datasets,
+    including spending analysis, advertising results, and vehicle geolocation
+    data will be added over time").
+deprecation:
+  policy_published: false
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  notice_period: null
+  note: No deprecation or sunset policy is published, and RFC 8594 Sunset /
+    Deprecation headers are not documented.
+  deprecated_operations: []
+breaking_change_policy:
+  published: false
+  note: >-
+    None published. The docs commit only to responsiveness — "We will respond to
+    your challenges and address the issue and update the documentation as quickly
+    as possible" — which is a support promise, not a change contract.
+changelog:
+  published: false
+  url: null
+  note: >-
+    No dated API changelog. The company blog at https://www.datafy.com/blog
+    carries product announcements (e.g. new spending dashboard, new AI tool) but
+    is not an API change log and does not record contract changes.
+status_page:
+  published: false
+  url: null
+  probes:
+  - url: https://status.datafy.com
+    status: 0
+    result: DNS does not resolve
+    checked: '2026-08-12'
+  - url: https://www.datafy.com/status
+    status: 404
+    checked: '2026-08-12'
+  note: No status page, no uptime history, no incident feed.
+sla:
+  published: false
+  url: null
+  note: >-
+    No SLA. The only published timing commitments are operational rather than
+    contractual — data requests are "typically ready within 3 business days" for
+    Tally reports, and API datasets are "in most cases ... a few seconds" once
+    queued.
+credential_lifecycle:
+  api_token_lifetime_days: 30
+  renewal_window_days: 6
+  self_service_renewal: false
+  note: >-
+    The one lifecycle clock Datafy DOES publish is the credential one: tokens
+    expire every 30 days and a replacement can be requested from the portal API
+    Access page within 6 days of expiry. See
+    authentication/datafy-authentication.yml.
+support:
+  channel: customer-experience representative + https://www.datafy.com/contact
+  phone: '+1-877-328-2391'
+  note: Support is account-managed, not a public developer channel — there is no
+    forum, Discord, Slack, or public issue tracker.

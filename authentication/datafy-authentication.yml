@@ -1,0 +1,81 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.datafy.com/docs
+docs: https://www.datafy.com/docs
+note: >-
+  Datafy publishes no OpenAPI, so this profile is read from the provider's own
+  public API documentation ("Requesting an API Token" section) and confirmed
+  against the live behaviour of https://api.datafy.com/, which answers every
+  anonymous request with a JSON UnauthorizedError.
+api: Datafy Data API
+base_url: https://api.datafy.com/
+schemes:
+- key: bearerToken
+  type: http
+  scheme: bearer
+  in: header
+  header: Authorization
+  description: >-
+    A user-specific bearer token generated from the API Access page inside the
+    Datafy portal. Datafy's docs state the value has the format
+    "<Bearer token-string>" and that "the entire string including 'Bearer' is
+    required" — i.e. the caller sends the full "Bearer <token>" value in the
+    Authorization header.
+  required: true
+  applies_to: all endpoints
+  source: https://www.datafy.com/docs
+oauth2: false
+openid_connect: false
+mutual_tls: false
+api_key_query_param: false
+scopes:
+  model: none
+  note: >-
+    No OAuth scopes and no permission strings are documented. Authorization is
+    coarse — a token carries the destinations and levels that user's account is
+    entitled to, and the /options endpoint is how a caller discovers what its own
+    token is allowed to request.
+token_issuance:
+  self_service: false
+  where: https://portal.datafy.com
+  page: API Access page (inside the portal, after sign-in)
+  prerequisite: >-
+    "Reach out to your CX representative to gain visibility to our API Access
+    Page." The API Access page is not visible to a portal user until Datafy's
+    customer-experience team enables it, so token issuance is gated on a human
+    at Datafy, not on self-service signup.
+  scope_of_token: user-specific; Datafy states tokens must not be shared and that
+    unauthorized sharing may result in access being revoked
+token_lifecycle:
+  expires: true
+  lifetime_days: 30
+  rotation: manual
+  renewal_window_days: 6
+  renewal_note: >-
+    "Tokens will expire every 30 days and a refreshed token can be requested at
+    the api access page within 6 days of the prior token's expiration." There is
+    no refresh-token grant and no programmatic rotation endpoint — renewal is a
+    human action in the portal, which means any unattended agent integration will
+    break on a 30-day cycle unless a person rotates the credential.
+  revocation: >-
+    Datafy states it may revoke access for token sharing; no self-service
+    revocation endpoint or page is documented.
+observed_unauthenticated_behaviour:
+  probed: '2026-08-12'
+  request: GET https://api.datafy.com/ with no Authorization header
+  http_status: 500
+  content_type: application/json; charset=utf-8
+  body_shape: '{"name":"UnauthorizedError","message":"No authorization token was found","stack":"..."}'
+  finding: >-
+    The API returns HTTP 500 rather than 401 for a missing credential, and the
+    JSON body includes a server-side stack trace with internal file paths. Both
+    are defects a caller has to code around: an agent cannot distinguish "you are
+    not authenticated" from "the service is broken" by status code alone, and
+    there is no WWW-Authenticate challenge to discover the scheme from.
+gaps:
+- No machine-readable securityScheme is published (no OpenAPI, no
+  /.well-known/openid-configuration, no /.well-known/oauth-protected-resource).
+- Missing credential returns 500, not 401, and emits a stack trace.
+- No programmatic token refresh; 30-day manual rotation in a portal.
+- Token issuance requires a customer-experience representative to unlock the API
+  Access page, so the credential path is not self-service.

@@ -1,0 +1,145 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.datafy.com/docs
+docs: https://www.datafy.com/docs
+api: Datafy Data API
+note: >-
+  Datafy publishes no OpenAPI and no object reference, so this model is NOT
+  derived from a spec — it is read from the request and response vocabulary that
+  Datafy documents and exemplifies on its own API docs page. Only names that
+  appear verbatim in Datafy's published examples or prose are recorded. Field
+  types are stated where an example shows them and left null where they do not.
+  The full level vocabulary is deliberately NOT enumerated here: Datafy states the
+  authoritative list is per-destination and must be fetched from the /options
+  endpoint, which is auth-gated, so any enumeration written from the docs would be
+  a partial list masquerading as a complete one.
+entities:
+- name: DataRequest
+  description: The JSON body posted to https://api.datafy.com/. Doubles as the
+    generation trigger and the retrieval key — there is no separate job resource.
+  fields:
+  - name: destination
+    type: string
+    required: false
+    description: Named destination to scope the request to; only used by callers
+      entitled to more than one.
+  - name: levels
+    type: array<string>
+    required: true
+    description: Level names to break the result down by; order-insensitive,
+      combinable.
+  - name: filters
+    type: array<Filter>
+    required: true
+  - name: limits
+    type: array<Limit>
+    required: false
+  relationships:
+  - has_many: Filter
+    via: filters
+  - has_many: Limit
+    via: limits
+  - belongs_to: Destination
+    via: destination
+  - has_many: Level
+    via: levels
+- name: Filter
+  description: One filter clause inside a DataRequest.
+  variants:
+  - name: set filter
+    shape: '{"level": "<Level>", "values": ["<item>", ...]}'
+    example: '{"level": "State", "values": ["California", "Arizona"]}'
+  - name: range filter
+    shape: '{"level": "<range level>", "value": <scalar>}'
+    example: '{"level": "Minimum Distance", "value": 50}'
+    range_levels:
+    - Start Date
+    - End Date
+    - Minimum Distance
+    - Maximum Distance
+  relationships:
+  - belongs_to: Level
+    via: level
+- name: Limit
+  description: Top-N cap for a level.
+  shape: '{"level": "<Level>", "value": <integer>}'
+  example: '{"level": "City", "value": 100}'
+  note: May reference a level that is not in `levels`, in which case it narrows
+    the population rather than the output shape.
+  relationships:
+  - belongs_to: Level
+    via: level
+- name: Level
+  description: >-
+    A dimension the data can be broken down or filtered by. Datafy documents
+    State, Year, City, Cluster, Month, DMA and MSA in its examples and prose, and
+    states that availability varies per destination and that the complete list is
+    returned by the /options endpoint.
+  enumerable_from: 'POST https://api.datafy.com/options with {} (levels) or {"level":
+    "<Level>"} (options within a level)'
+  complete_list_published: false
+  documented_examples:
+  - State
+  - Year
+  - City
+  - Cluster
+  - Month
+  - DMA
+  - MSA
+  - Destination
+- name: Destination
+  description: 'A place a caller is entitled to report on. Authorized names are returned
+    by /options with {"level": "Destination"}.'
+  identifier: name (string) — no opaque ID is documented
+  relationships:
+  - has_many: Level
+    via: per-destination level availability
+- name: DataRow
+  description: >-
+    One object in the JSON array returned by a completed data request, at the
+    granularity set by `levels`. Datafy states the response "will most often
+    include four standard KPIs".
+  fields:
+  - name: Total Trips
+    type: null
+  - name: Visitor Days
+    type: null
+  - name: Unique Visitors
+    type: null
+  - name: Avg Trip Length
+    type: null
+  caveats:
+  - Small-population rows are filtered out to satisfy privacy guidelines, so
+    granular results are incomplete by design.
+  - >-
+    Weighted averaging differs by requested granularity, so an unlevelled
+    aggregate will not equal the sum of the same value across a more granular
+    level. Datafy states "in most cases the variance is in the low single digit
+    percentage range".
+- name: QueuedStatus
+  description: >-
+    The alternative response body from a data request — a status message stating
+    the request was received and is awaiting processing. No schema, field names,
+    or status enumeration is published for it, and it cannot be observed without
+    a token.
+  fields: []
+  schema_published: false
+- name: ProgressItem
+  description: >-
+    One object in the array returned by GET https://api.datafy.com/progress, one
+    per destination that has "In Progress" data requests.
+  fields:
+  - name: destination name
+    type: string
+  - name: in-progress request count
+    type: integer
+  note: Field names are described in prose only; Datafy publishes no example
+    response for this endpoint.
+  relationships:
+  - belongs_to: Destination
+    via: destination name
+id_prefixes: []
+id_prefixes_note: Datafy exposes no opaque object identifiers at all — every
+  reference in the request vocabulary is a human-readable name.
+render: null
+checked: '2026-08-12'

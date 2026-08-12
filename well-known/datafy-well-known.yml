@@ -1,0 +1,190 @@
+generated: '2026-08-12'
+method: probed
+source: live GET of /.well-known/* on every Datafy host
+note: >-
+  Every /.well-known/ path was probed on all three Datafy hosts and none returned
+  a document. www.datafy.com answers 404 with the Next.js HTML not-found shell,
+  portal.datafy.com answers 404 with the Vercel text not-found body, and
+  api.datafy.com answers HTTP 500 with a JSON UnauthorizedError for every path
+  because the whole API host sits behind a bearer-token gate. NO WellKnown or
+  SecurityTxt pointer is emitted in apis.yml — this file records an ABSENCE, and
+  a recorded absence must never be scored as a presence.
+hosts:
+- host: www.datafy.com
+- host: portal.datafy.com
+- host: api.datafy.com
+probes:
+- path: /.well-known/security.txt
+  host: www.datafy.com
+  url: https://www.datafy.com/.well-known/security.txt
+  status: 404
+  content_type: text/html; charset=utf-8
+  file: null
+- path: /.well-known/openid-configuration
+  host: www.datafy.com
+  url: https://www.datafy.com/.well-known/openid-configuration
+  status: 404
+  content_type: text/html; charset=utf-8
+  file: null
+- path: /.well-known/oauth-authorization-server
+  host: www.datafy.com
+  url: https://www.datafy.com/.well-known/oauth-authorization-server
+  status: 404
+  content_type: text/html; charset=utf-8
+  file: null
+- path: /.well-known/oauth-protected-resource
+  host: www.datafy.com
+  url: https://www.datafy.com/.well-known/oauth-protected-resource
+  status: 404
+  content_type: text/html; charset=utf-8
+  file: null
+- path: /.well-known/api-catalog
+  host: www.datafy.com
+  url: https://www.datafy.com/.well-known/api-catalog
+  status: 404
+  content_type: text/html; charset=utf-8
+  file: null
+- path: /.well-known/ai-plugin.json
+  host: www.datafy.com
+  url: https://www.datafy.com/.well-known/ai-plugin.json
+  status: 404
+  content_type: text/html; charset=utf-8
+  file: null
+- path: /.well-known/agent-card.json
+  host: www.datafy.com
+  url: https://www.datafy.com/.well-known/agent-card.json
+  status: 404
+  content_type: text/html; charset=utf-8
+  file: null
+- path: /.well-known/agent.json
+  host: www.datafy.com
+  url: https://www.datafy.com/.well-known/agent.json
+  status: 404
+  content_type: text/html; charset=utf-8
+  file: null
+- path: /.well-known/security.txt
+  host: portal.datafy.com
+  url: https://portal.datafy.com/.well-known/security.txt
+  status: 404
+  content_type: text/plain; charset=utf-8
+  file: null
+- path: /.well-known/openid-configuration
+  host: portal.datafy.com
+  url: https://portal.datafy.com/.well-known/openid-configuration
+  status: 404
+  content_type: text/plain; charset=utf-8
+  file: null
+- path: /.well-known/oauth-authorization-server
+  host: portal.datafy.com
+  url: https://portal.datafy.com/.well-known/oauth-authorization-server
+  status: 404
+  content_type: text/plain; charset=utf-8
+  file: null
+- path: /.well-known/oauth-protected-resource
+  host: portal.datafy.com
+  url: https://portal.datafy.com/.well-known/oauth-protected-resource
+  status: 404
+  content_type: text/plain; charset=utf-8
+  file: null
+- path: /.well-known/api-catalog
+  host: portal.datafy.com
+  url: https://portal.datafy.com/.well-known/api-catalog
+  status: 404
+  content_type: text/plain; charset=utf-8
+  file: null
+- path: /.well-known/ai-plugin.json
+  host: portal.datafy.com
+  url: https://portal.datafy.com/.well-known/ai-plugin.json
+  status: 404
+  content_type: text/plain; charset=utf-8
+  file: null
+- path: /.well-known/agent-card.json
+  host: portal.datafy.com
+  url: https://portal.datafy.com/.well-known/agent-card.json
+  status: 404
+  content_type: text/plain; charset=utf-8
+  file: null
+- path: /.well-known/agent.json
+  host: portal.datafy.com
+  url: https://portal.datafy.com/.well-known/agent.json
+  status: 404
+  content_type: text/plain; charset=utf-8
+  file: null
+- path: /.well-known/security.txt
+  host: api.datafy.com
+  url: https://api.datafy.com/.well-known/security.txt
+  status: 500
+  content_type: application/json; charset=utf-8
+  file: null
+  note: UnauthorizedError — host requires a bearer token on every path
+- path: /.well-known/openid-configuration
+  host: api.datafy.com
+  url: https://api.datafy.com/.well-known/openid-configuration
+  status: 500
+  content_type: application/json; charset=utf-8
+  file: null
+  note: UnauthorizedError — host requires a bearer token on every path
+- path: /.well-known/oauth-authorization-server
+  host: api.datafy.com
+  url: https://api.datafy.com/.well-known/oauth-authorization-server
+  status: 500
+  content_type: application/json; charset=utf-8
+  file: null
+  note: UnauthorizedError — host requires a bearer token on every path
+- path: /.well-known/oauth-protected-resource
+  host: api.datafy.com
+  url: https://api.datafy.com/.well-known/oauth-protected-resource
+  status: 500
+  content_type: application/json; charset=utf-8
+  file: null
+  note: UnauthorizedError — host requires a bearer token on every path
+- path: /.well-known/api-catalog
+  host: api.datafy.com
+  url: https://api.datafy.com/.well-known/api-catalog
+  status: 500
+  content_type: application/json; charset=utf-8
+  file: null
+  note: UnauthorizedError — host requires a bearer token on every path
+- path: /.well-known/ai-plugin.json
+  host: api.datafy.com
+  url: https://api.datafy.com/.well-known/ai-plugin.json
+  status: 500
+  content_type: application/json; charset=utf-8
+  file: null
+  note: UnauthorizedError — host requires a bearer token on every path
+- path: /.well-known/agent-card.json
+  host: api.datafy.com
+  url: https://api.datafy.com/.well-known/agent-card.json
+  status: 500
+  content_type: application/json; charset=utf-8
+  file: null
+  note: UnauthorizedError — host requires a bearer token on every path
+- path: /.well-known/agent.json
+  host: api.datafy.com
+  url: https://api.datafy.com/.well-known/agent.json
+  status: 500
+  content_type: application/json; charset=utf-8
+  file: null
+  note: UnauthorizedError — host requires a bearer token on every path
+summary:
+  paths_probed: 24
+  documents_found: 0
+  security_txt: false
+  openid_configuration: false
+  oauth_authorization_server: false
+  oauth_protected_resource: false
+  api_catalog: false
+  ai_plugin: false
+  agent_card: false
+adjacent_root_files:
+- url: https://www.datafy.com/llms.txt
+  status: 200
+  content_type: text/plain; charset=utf-8
+  file: ../llms/datafy-llms.txt
+  note: not a /.well-known/ path, but a real machine-readable root document — saved
+    under llms/ and wired as type LLMsTxt
+- url: https://www.datafy.com/robots.txt
+  status: 200
+  content_type: text/plain; charset=utf-8
+  note: 'Allow: / with Disallow: /api/, /opt-out, /ccpa-metrics; Sitemap: https://datafy.com/sitemap.xml'
+checked: '2026-08-12'

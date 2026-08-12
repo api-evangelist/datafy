@@ -1,0 +1,101 @@
+generated: '2026-08-12'
+method: probed
+source: live unauthenticated requests to https://api.datafy.com/ (2026-08-12)
+docs: https://www.datafy.com/docs
+api: Datafy Data API
+base_url: https://api.datafy.com/
+format: proprietary
+rfc9457: false
+content_type_used: application/json; charset=utf-8 (unrouted paths) / text/html;
+  charset=utf-8 (the three documented endpoints)
+note: >-
+  Datafy publishes NO error reference — the API documentation's own Intro asks
+  callers to "alert the team if you experience any challenges with data
+  retrieval, syntax, error messaging etc." So this catalog is not derived from a
+  spec and not copied from a docs page; it records only errors OBSERVED on live
+  anonymous requests to the real API host on 2026-08-12. Nothing is extrapolated:
+  the authenticated error surface (validation errors on levels/filters/limits,
+  entitlement errors on destination, queue errors) is unobservable without a
+  token and is therefore recorded as unknown rather than guessed.
+envelope:
+  json_shape:
+    name: string — the error class, e.g. UnauthorizedError
+    message: string — human-readable reason, e.g. "No authorization token was found"
+    stack: string — SERVER-SIDE STACK TRACE, including internal file paths and
+      line offsets
+  text_shape: 'Error: <message>'
+  machine_stable_code: false
+  problem_type_uri: false
+  request_id: false
+  finding: >-
+    There is no stable machine-readable error code. A client must string-match on
+    `name` or on the free-text `message`, and on the three documented endpoints it
+    gets a text/html body rather than JSON at all — so an agent parsing JSON will
+    fail on the parse, not on the error.
+problem_types:
+- id: unauthorized-missing-token
+  observed_status: 500
+  observed_name: UnauthorizedError
+  observed_message: No authorization token was found
+  observed_content_type: text/html; charset=utf-8 (documented endpoints) /
+    application/json; charset=utf-8 (unrouted paths)
+  trigger: any request with no Authorization header
+  endpoints_confirmed:
+  - GET https://api.datafy.com/
+  - POST https://api.datafy.com/options
+  - GET https://api.datafy.com/progress
+  correct_status: 401
+  remediation: >-
+    Send the full portal-issued value in the Authorization header, including the
+    leading "Bearer" (see authentication/datafy-authentication.yml).
+  defect: >-
+    Returned as HTTP 500, not 401, with no WWW-Authenticate challenge. An agent
+    cannot distinguish a credential problem from a server outage by status code,
+    and standard retry logic will retry a 500 forever against a request that can
+    never succeed.
+- id: unauthorized-malformed-jwt
+  observed_status: 500
+  observed_name: UnauthorizedError
+  observed_message: jwt malformed
+  observed_content_type: text/html; charset=utf-8
+  trigger: an Authorization header whose value is not a well-formed JWT
+  correct_status: 401
+  remediation: Request a fresh token from the API Access page in the Datafy portal.
+  note: >-
+    This response is the evidence that Datafy's API token is a JWT — the docs
+    never say so.
+- id: unauthorized-invalid-token
+  observed_status: 500
+  observed_name: UnauthorizedError
+  observed_message: invalid token
+  observed_content_type: application/json; charset=utf-8
+  trigger: a syntactically valid but unaccepted bearer value
+  correct_status: 401
+  remediation: Tokens expire every 30 days; request a replacement within the
+    6-day renewal window.
+unobservable_without_credentials:
+- Validation errors for malformed `levels` / `filters` / `limits` entries
+- Entitlement errors for a `destination` the token is not authorized for
+- Errors or status semantics on a queued-but-failed data request
+- Any rate-limit or throttling error (none is documented; see
+  rate-limits/datafy-rate-limits.yml)
+security_observations:
+  stack_trace_leaked: true
+  detail: >-
+    The JSON error body returns the full server stack trace, exposing the runtime
+    file path /home/portal/portal-api.js and internal line offsets. This is an
+    information-disclosure smell worth reporting to the provider, and it is the
+    reason the raw body is described here rather than stored verbatim.
+  cors_allow_origin: '*'
+  security_headers_present:
+  - content-security-policy
+  - strict-transport-security (max-age=15552000; includeSubDomains)
+  - x-content-type-options
+  - x-frame-options
+  - referrer-policy
+  - cross-origin-opener-policy
+  - cross-origin-resource-policy
+  security_headers_note: >-
+    The API host is well hardened at the header layer (Helmet-style defaults
+    behind Cloudflare) — the weakness is in the error CONTRACT, not the transport.
+checked: '2026-08-12'

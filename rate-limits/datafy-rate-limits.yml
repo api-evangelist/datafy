@@ -1,0 +1,54 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.datafy.com/docs
+docs: https://www.datafy.com/docs
+api: Datafy Data API
+base_url: https://api.datafy.com/
+limit_count: 0
+rate_limits: []
+headers: []
+status_on_exhaustion: null
+retry_after: false
+note: >-
+  Datafy publishes NO rate limits for the Datafy Data API. The full public API
+  documentation at https://www.datafy.com/docs was read end to end (including the
+  Data, Options and Progress sections carried in the page's client bundle) and it
+  names no quota, no per-key or per-account ceiling, no burst allowance, no 429
+  behaviour, and no RateLimit-* / X-RateLimit-* / Retry-After response headers.
+  No headers could be observed live either, because every anonymous request to
+  https://api.datafy.com/ is rejected with a 500 UnauthorizedError before any
+  rate-limit header is emitted. An honest zero, recorded rather than omitted.
+back_pressure:
+  model: server-side queueing, not rejection
+  description: >-
+    Instead of a limit, Datafy applies admission control: "if the data has not
+    been requested before, the API will place the request in a queue and process
+    the request once resources become available. In this case, the API will
+    return a status message to inform you that the request has been received and
+    is awaiting processing." Latency, not a 429, is the throttle. The caller
+    re-sends the same request body to collect the result.
+  typical_wait: a few seconds in most cases
+  worst_case: >-
+    "For requests that cover densely visited POIs and cover large date ranges,
+    the processing may take longer" — unbounded and unquantified.
+  queue_visibility:
+    endpoint: https://api.datafy.com/progress
+    returns: per-destination count of "In Progress" data requests
+    note: >-
+      This is the closest thing Datafy ships to a rate-limit signal — it tells a
+      caller how deep its own backlog is, but not how much headroom remains, and
+      it is a count per destination rather than per request.
+result_size_controls:
+  parameter: limits
+  description: >-
+    `limits[]` caps rows returned per level (top-N), e.g. {"level":"City","value":100}.
+    This is a response-size control the CALLER chooses, not a limit the provider
+    enforces, and it is recorded here only so it is not mistaken for one.
+gaps:
+- No published quota of any kind (per key, per account, per endpoint, per window).
+- No rate-limit response headers documented or observable.
+- No documented status code on exhaustion; an agent cannot tell throttling from
+  failure.
+- Queue depth is exposed only as an aggregate count, with no ETA and no per-request
+  status.
+checked: '2026-08-12'
