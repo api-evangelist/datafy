@@ -33,7 +33,7 @@ accessModel:
   - https://www.datafy.com/docs
   generated: '2026-08-12'
   method: searched
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-08-12'
 image: https://www.datafy.com/favicon.ico
