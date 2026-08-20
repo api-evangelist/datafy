@@ -47,6 +47,17 @@ tags:
 - Marketing
 - Visitation Data
 - Destination Marketing
+- Measurements
+tags_raw:
+- Company
+- Analytics
+- Advertising
+- Location Intelligence
+- Attribution
+- Tourism
+- Marketing
+- Visitation Data
+- Destination Marketing
 - Measurement
 apis:
 - name: Datafy Data API
