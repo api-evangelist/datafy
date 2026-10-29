@@ -64,6 +64,103 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Datafy is a company surfaced as a portfolio company of bessemer-venture-partners, insight-partners and added to the API Evangelist network as a stub for enrichment. Sector: cloud. This profile is a lead awaiting the enrichment pipeline.
+Datafy is a location-analytics and advertising platform, founded in 2018 and headquartered in Ogden, Utah, that helps destinations and communities turn visitation, spending, and behavioral signals into marketing decisions. It serves travel and tourism boards, attractions, downtowns, retail partners, and civic organizations with three core offerings — data analytics, targeted advertising, and real-world attribution — alongside Tally, a hardware attendance-measurement sensor. Datafy does publish a public API reference at https://www.datafy.com/docs covering the Datafy Data API, a self-described beta JSON-over-HTTP reporting API at api.datafy.com with three endpoints (data, options, progress), authenticated by a 30-day portal-issued bearer JWT that a customer-experience representative must unlock before the API Access page becomes visible. No OpenAPI, SDK, package, or self-service signup is published, and the company's widest developer-touching surface is its per-customer measurement tag family — website pixel, 1x1 media impression pixels, and click tags. The company reports 500+ clients and holds a SOC 2 Type II certification from A-LIGN.
 
-Backed by: bessemer-venture-partners, insight-partners — https://www.datafy.com/
+**Areas:** Company · Analytics · Advertising · Location Intelligence · Attribution · Tourism · Marketing · Visitation Data · Destination Marketing · Measurements
+
+## Datafy on APIs.io
+
+Everything profiled for Datafy is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/datafy/](https://apis.io/providers/datafy/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Datafy Data API](https://apis.io/apis/datafy/datafy-data-api/) — The Datafy Data API is a beta JSON-over-HTTP reporting API that returns aggregated visitation analytics for a destination. It is RPC-shaped rather than…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Datafy Authentication](https://apis.io/security/datafy/datafy-authentication/)
+- [Datafy Domain Security](https://apis.io/security/datafy/datafy-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Datafy Plans Pricing](https://apis.io/plans/datafy/datafy-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Datafy Rate Limits](https://apis.io/rate-limits/datafy/datafy-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.datafy.com/)
+- [Documentation](https://www.datafy.com/docs)
+- [Getting started](https://www.datafy.com/pixel/introduction)
+- [API reference](https://www.datafy.com/docs)
+- [Pricing](https://www.datafy.com/pricing)
+- [Support](https://www.datafy.com/contact)
+- [Blog](https://www.datafy.com/blog)
+- [Privacy policy](https://www.datafy.com/privacy-policy)
+
+## API Evangelist rating
+
+**Kin Score 27.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 47.6 |
+| Access clarity | 35.5 |
+
+**Agent readiness 7.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 25.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/datafy/](https://apis.io/providers/datafy/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Datafy: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/datafy/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
